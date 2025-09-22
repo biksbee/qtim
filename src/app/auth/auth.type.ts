@@ -1,33 +1,13 @@
-import { OneTimePasswordType, USERS_TOKENS_TYPES } from '../../utils/constants';
+import { USERS_TOKENS_TYPES } from '../../utils/constants';
 
-export type UserAuthType = {
+export type AuthType = {
   email: string;
-  accessCode?: string;
-  password?: string;
+  password: string;
 }
 
-export type UserRegType = {
-  email: string;
-  accessCode: string;
-}
-
-export type GenerateAuthResponseType = Omit<UserRegType, 'accessCode'> & {
+export type GenerateAuthResponseType = Partial<AuthType> & {
   id: number;
   type?: USERS_TOKENS_TYPES;
-}
-
-export type GetAccessCodeType = {
-  email: string;
-};
-
-export type CreateUserByGoogleType = Omit<UserRegType, 'accessCode'> & {
-  firstName?: string;
-  secondName?: string;
-  // avatarUrl
-}
-
-export type TypeOneTimePasswordType = {
-  type: OneTimePasswordType;
 }
 
 export type GenerateTokenPayloadType = {
@@ -38,10 +18,4 @@ export type GenerateTokenPayloadType = {
 
 export type RefreshAuthType = {
   refreshToken: string;
-}
-
-export type ApiLoginType = {
-  user_id?: number;
-  client_id: string;
-  client_secret: string;
 }

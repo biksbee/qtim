@@ -3,9 +3,9 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { UsersService } from '../../src/app/users/users.service';
-import { UsersEntity } from '../../src/app/users/users.entity';
-import { UsersTokensService } from '../../src/app/users-tokens/users-tokens.service';
+import { UsersService } from './users.service';
+import { UsersEntity } from './users.entity';
+import { UsersTokensService } from '../users-tokens/users-tokens.service';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -58,12 +58,16 @@ describe('UsersService', () => {
 
   it('должен создать пользователя если email уникален', async () => {
     const dto = { email: 'new@example.com', password: 'pass' };
-    repo.findOneBy.mockResolvedValue(null); // getByEmail
     const saved = { id: 1, ...dto } as UsersEntity;
+
+    // Первый вызов getByEmail → null (юзер не найден)
+    repo.findOneBy.mockResolvedValueOnce(null);
+
+    // Второй вызов this.get(user.id) → возвращаем сохранённого юзера
+    repo.findOneBy.mockResolvedValueOnce(saved);
 
     repo.create.mockReturnValue(saved);
     repo.save.mockResolvedValue(saved);
-    repo.findOneBy.mockResolvedValue(saved);
 
     const result = await service.create(dto);
 

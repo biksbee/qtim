@@ -1,13 +1,11 @@
-import { socialNetworksTypesSeed } from './seed-social-networks-types';
 import { AppDataSource } from '../../../data-source';
-import { socialPostsTypesSeed } from './seed-social-posts-types';
+import { UserTokensSeed } from './seed-user-tokens';
 
 async function seed() {
   await AppDataSource.initialize();
 
   console.log('Starting seeding process...');
-  await socialNetworksTypesSeed(AppDataSource);
-  await socialPostsTypesSeed(AppDataSource);
+  await UserTokensSeed(AppDataSource);
 
   await AppDataSource.destroy();
 }

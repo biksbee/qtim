@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
-import { UsersController } from '../../src/app/users/users.controller';
-import { UsersService } from '../../src/app/users/users.service';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
 
 describe('UsersController', () => {
   let controller: UsersController;
